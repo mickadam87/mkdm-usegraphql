@@ -1,0 +1,34 @@
+{
+  "name": "mkdm-react-usegraphql",
+  "version": "1.0.0",
+  "description": "GraphQL React Hook",
+  "private": false,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https//github.com/mickadam87/mkdm-react-usegraphql.git"
+  },
+  "keywords": [
+    "Graphql",
+    "react-native",
+    "react"
+  ],
+  "author": "Mickael Da matha sant'anna",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.2.4",
+    "@types/react": "^18.0.26",
+    "@types/react-test-renderer": "^18.0.0",
+    "typescript": "^4.9.4"
+  }
+}
