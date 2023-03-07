@@ -119,6 +119,7 @@ export default function useGraphQL(props: {
         body: JSON.stringify(packet),
       });
       const rs = await req.json();
+      console.log(rs);
       setData(rs.data);
       setLoading(false);
       return rs.data;
