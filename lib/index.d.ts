@@ -63,7 +63,7 @@ export default function useGraphQL(props: {
     query: string;
     variables: object;
 }): {
-    loadData: (vars?: any) => Promise<void>;
+    loadData: (vars?: any) => Promise<any>;
     data: null;
     reset: () => void;
     error: null;

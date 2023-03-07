@@ -121,6 +121,7 @@ export default function useGraphQL(props: {
       const rs = await req.json();
       setData(rs.data);
       setLoading(false);
+      return rs.data;
     } catch (error: any) {
       setError(error);
     }
