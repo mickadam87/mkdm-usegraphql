@@ -7,7 +7,7 @@ import {
 } from "react";
 
 type GraphQLContextType = {
-  endpoint: RequestInfo;
+  endpoint: string;
   headers: object | undefined;
 };
 const GraphQLContext = createContext<GraphQLContextType>({
@@ -40,7 +40,7 @@ const GraphQLContext = createContext<GraphQLContextType>({
 
 export function GraphQLProvider(props: {
   children: JSX.Element;
-  endpoint: RequestInfo;
+  endpoint: string;
   headers?: object;
 }) {
   return (
@@ -90,7 +90,6 @@ export default function Auth() {
 export default function useGraphQL(props: {
   query: string;
   variables: object;
-  loadOnStart: boolean;
 }) {
   const { endpoint, headers } = useContext(GraphQLContext);
   const [loading, setLoading] = useState(false);
@@ -103,53 +102,43 @@ export default function useGraphQL(props: {
     setData(null);
   };
 
-  const loadData = useCallback(
-    async (vars?: object) => {
-      try {
-        const params = vars ? vars : props.variables;
-        const packet = {
-          query: props.query,
-          variables: params,
-        };
-        setLoading(true);
-        const req = await fetch(endpoint, {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-            ...headers,
-          },
-          body: JSON.stringify(packet),
-        });
-        await new Promise((res) =>
-          setTimeout(() => {
-            res(0);
-          }, 3000)
-        );
-        const rs = await req.json();
-        setData(rs.data);
-        setLoading(false);
-      } catch (error: any) {
-        setError(error);
-      }
-    },
-    [headers, endpoint, props.query, props.variables]
-  );
+  const loadData = async (vars?: any) => {
+    try {
+      const params = vars ? vars : props.variables;
+      const packet = {
+        query: props.query,
+        variables: params,
+      };
+      setLoading(true);
+      const req = await fetch(endpoint, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+        body: JSON.stringify(packet),
+      });
+      const rs = await req.json();
+      setData(rs.data);
+      setLoading(false);
+    } catch (error: any) {
+      setError(error);
+    }
+  };
 
   useEffect(() => {
-    if (props.loadOnStart) {
+    if (props.variables) {
       loadData();
     }
     return () => reset();
     // eslint-disable-next-line
-  }, [props.loadOnStart]);
+  }, []);
 
-  return [
+  return {
     loadData,
-    {
-      data,
-      loading,
-      reset,
-      error,
-    },
-  ];
+    data,
+    reset,
+    error,
+    loading,
+  };
 }
