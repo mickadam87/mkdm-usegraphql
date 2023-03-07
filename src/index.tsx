@@ -102,9 +102,9 @@ export default function useGraphQL(props: {
     setData(null);
   };
 
-  const loadData = async (vars?: any) => {
+  const loadData = async () => {
     try {
-      const params = vars ? vars : props.variables;
+      const params = props.variables;
       const packet = {
         query: props.query,
         variables: params,
@@ -128,6 +128,34 @@ export default function useGraphQL(props: {
     }
   };
 
+  const submit = async (variables: any) => {
+    try {
+      const packet = {
+        query: props.query,
+        variables,
+      };
+      setLoading(true);
+      const req = await fetch(endpoint, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+        body: JSON.stringify(packet),
+      });
+      const rs = await req.json();
+      if (rs.errors) {
+        return rs.errors;
+      }
+      console.log(rs);
+      setLoading(false);
+      return rs.data;
+    } catch (error: any) {
+      setLoading(false);
+      return { error: error.message };
+    }
+  };
+
   useEffect(() => {
     if (props.variables) {
       loadData();
@@ -137,6 +165,7 @@ export default function useGraphQL(props: {
   }, []);
 
   return {
+    submit,
     loadData,
     data,
     reset,
