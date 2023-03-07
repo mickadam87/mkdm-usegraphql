@@ -2,7 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "esModuleInterop": true,
-    "jsx": "react-native",
+    "jsx": "react-jsx",
     "lib": ["ESNext", "DOM"],
     "module": "ES6",
     "moduleResolution": "Node",
