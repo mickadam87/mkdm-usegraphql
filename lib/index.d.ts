@@ -61,7 +61,7 @@ export default function Auth() {
  */
 export default function useGraphQL(props: {
     query: string;
-    variables: object;
+    variables?: object;
 }): {
     loadData: (vars?: any) => Promise<any>;
     data: null;

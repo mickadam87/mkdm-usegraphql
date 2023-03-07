@@ -89,7 +89,7 @@ export default function Auth() {
 
 export default function useGraphQL(props: {
   query: string;
-  variables: object;
+  variables?: object;
 }) {
   const { endpoint, headers } = useContext(GraphQLContext);
   const [loading, setLoading] = useState(false);
